@@ -4,6 +4,7 @@ void main() {
   runApp(const MyApp());
 }
 
+// StatelessWidget
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// StatefulWidget
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -30,17 +32,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _seconds = 0;
 
-  void _incrementCounter() {
+  void _incrementSeconds() {
     setState(() {
-      _counter++;
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      if (_counter > 0) _counter--;
+      _seconds++;
     });
   }
 
@@ -53,22 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Text(
-          '$_counter',
-          style: Theme.of(context).textTheme.headlineMedium,
+          '$_seconds',
+          style: const TextStyle(fontSize: 100),
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FloatingActionButton(
-            onPressed: _incrementCounter,
-            child: const Icon(Icons.add),
-          ),
-          FloatingActionButton(
-            onPressed: _decrementCounter,
-            child: const Icon(Icons.remove),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementSeconds,
+        child: const Icon(Icons.add),
       ),
     );
   }
