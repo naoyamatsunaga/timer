@@ -59,6 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
           context,
           MaterialPageRoute(builder: (context) => NextPage()),
         );
+        toggleTimer();
+        timerReset();
       }
     });
   }
