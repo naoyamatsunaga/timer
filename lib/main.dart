@@ -35,15 +35,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _seconds = 0;
+
   // nullを許容する
   Timer? _timer;
+
+  bool _isRunning = false;
 
   @override
   // 画面を開いた時に最初に呼ばれる関数
   void initState() {
     super.initState();
+  }
 
-    // 1秒ごとにカウントアップ
+  void timerStart() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _seconds++;
@@ -51,13 +55,24 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _timerStop() {
+  void timerStop() {
     setState(() {
       _timer?.cancel();
     });
   }
 
-  void _timerReset() {
+  void toggleTimer() {
+    setState(() {
+      if (_isRunning) {
+        timerStop();
+      } else {
+        timerStart();
+      }
+      _isRunning = !_isRunning;
+    });
+  }
+
+  void timerReset() {
     setState(() {
       _seconds = 0;
     });
@@ -80,15 +95,24 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                _timerStop();
+                toggleTimer();
               },
-              child: const Text('ストップ'),
+              child: Text(
+                _isRunning ? 'ストップ' : 'スタート',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: _isRunning ? Colors.red : Colors.green,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
-                _timerReset();
+                timerReset();
               },
-              child: const Text('リセット'),
+              child: const Text(
+                'リセット',
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ],
         ),
