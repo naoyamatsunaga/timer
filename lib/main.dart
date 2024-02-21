@@ -57,6 +57,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _timerReset() {
+    setState(() {
+      _seconds = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +84,13 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('ストップ'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                _timerReset();
+              },
+              child: const Text('リセット'),
+            ),
+          ],
         ),
       ),
     );
