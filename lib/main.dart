@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,6 +35,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _seconds = 0;
+
+  @override
+  // 画面を開いた時に最初に呼ばれる関数
+  void initState() {
+    super.initState();
+
+    // 1秒ごとにカウントアップ
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
+      });
+    });
+  }
 
   void _incrementSeconds() {
     setState(() {
