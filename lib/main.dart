@@ -35,6 +35,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _seconds = 0;
+  // nullを許容する
+  Timer? _timer;
 
   @override
   // 画面を開いた時に最初に呼ばれる関数
@@ -42,16 +44,16 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     // 1秒ごとにカウントアップ
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _seconds++;
       });
     });
   }
 
-  void _incrementSeconds() {
+  void _timerStop() {
     setState(() {
-      _seconds++;
+      _timer?.cancel();
     });
   }
 
@@ -63,14 +65,20 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Text(
-          '$_seconds',
-          style: const TextStyle(fontSize: 100),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$_seconds',
+              style: const TextStyle(fontSize: 100),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _timerStop();
+              },
+              child: const Text('ストップ'),
+            ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementSeconds,
-        child: const Icon(Icons.add),
       ),
     );
   }
