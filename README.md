@@ -1,16 +1,19 @@
-# timer
+#　timer
+## OverView
+概要
 
-A new Flutter project.
+## Images
+画面イメージ
+<img src="画像のURL" width="20%" />
 
-## Getting Started
+## Usage
+簡単な使い方
 
-This project is a starting point for a Flutter application.
+## Features(Description)
+仕様、Usageで紹介しなかった詳しい使い方
 
-A few resources to get you started if this is your first Flutter project:
+## Reference
+参考URL
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Licence
+ライセンス
