@@ -1,8 +1,7 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
-import 'next_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,10 +35,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _minutes = 0;
   int _seconds = 0;
+  int _milliSeconds = 0;
 
   // nullを許容する
-  Timer? _timer;
+  Timer? _secondTimer;
+  Timer? _milliSecondTimer;
 
   bool _isRunning = false;
 
@@ -49,25 +51,44 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  void timerStart() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  void secondTimerStart() {
+    _secondTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _seconds++;
+        if (_seconds == 60) {
+          _seconds = 0;
+          _minutes++;
+        }
       });
-      if (_seconds == 5) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NextPage()),
-        );
-        toggleTimer();
-        timerReset();
-      }
+
+      // 5秒後に画面遷移する
+      // if (_seconds == 5) {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => NextPage()),
+      //   );
+      //   toggleTimer();
+      //   timerReset();
+      // }
+    });
+  }
+
+  void millisecondTimerStart() {
+    _milliSecondTimer =
+        Timer.periodic(const Duration(milliseconds: 10), (timer) {
+      setState(() {
+        _milliSeconds++;
+        if (_milliSeconds == 100) {
+          _milliSeconds = 0;
+        }
+      });
     });
   }
 
   void timerStop() {
     setState(() {
-      _timer?.cancel();
+      _secondTimer?.cancel();
+      _milliSecondTimer?.cancel();
     });
   }
 
@@ -76,7 +97,8 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_isRunning) {
         timerStop();
       } else {
-        timerStart();
+        secondTimerStart();
+        millisecondTimerStart();
       }
       _isRunning = !_isRunning;
     });
@@ -84,10 +106,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void timerReset() {
     setState(() {
+      _minutes = 0;
       _seconds = 0;
+      _milliSeconds = 0;
     });
   }
 
+  // 画面
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,8 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '$_seconds',
-              style: const TextStyle(fontSize: 100),
+              '${_minutes.toString().padLeft(2, '0')}:${_seconds.toString().padLeft(2, '0')}.${_milliSeconds.toString().padLeft(2, '0')}',
+              style: const TextStyle(
+                fontSize: 75,
+                fontFeatures: [FontFeature.tabularFigures()],
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -117,6 +145,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () {
+                if (_isRunning) {
+                  toggleTimer();
+                }
                 timerReset();
               },
               child: const Text(
